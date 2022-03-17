@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div>
+    <h1>Stocks Here</h1>
+    <h4>Scroll down to see more than 10000 stocks here </h4>
+    <form method="get">
+        <select name="filter" id="filter">
+            <option value="all_stocks">All Stocks</option>
+            <option {% if request.args.get("filter") == "new_intraday_highs"  %} selected="selected" {% endif %}
+            value="new_intraday_highs">New Intraday Highs</option>
+            <option {% if request.args.get("filter") == "new_closing_highs"  %} selected="selected" {% endif %}
+            value="new_closing_highs" >New Closing Highs</option>
+            <option  {% if request.args.get("filter") == "new_intraday_lows"  %} selected="selected" {% endif %}
+            value="new_intraday_lows">New Intraday Lows</option>
+            <option {% if request.args.get("filter") == "new_closing_lows"  %} selected="selected" {% endif %}
+            value="new_closing_lows">New Closing Lows</option>
+        </select>
+
+        <input type="submit">
+    </form>
+
+
+    <div class="container">
+        <table class="table table-hover table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">SYMBOL</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">Close</th>
+                    <th scope="col">RSI 14</th>
+                    <th scope="col">SMA 20</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                <tr>
+                    <td>{{ stock.id}}</td>
+                    <td><a href="/stocks/{{stock.symbol}}">{{ stock.symbol}}</a></td>
+                    <td>{{ stock.name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+    </div>
+    
+    <a href="/signup" class="btn btn-primary">Sign up to see more</a>
+  </div>
+{% endblock %}

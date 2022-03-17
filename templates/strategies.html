@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div>
+    <h1>Strategies Here</h1>
+    <h4>Scroll down to see strategies and stocks associated with strategies </h4>
+
+    <div class="container">
+        <table class="table table-hover table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Strategy</th>
+                    <th scope="col">Stocks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for strategy in strategies %}
+                <tr>
+                    <td>{{ strategy.id}}</td>
+                    <td><a href="/strategies/{{strategy.id}}">{{ strategy.name}}</a></td>
+            
+                    <td>
+                        {% if strategy.stocks %}
+                        {% for stock in strategy.stocks %}
+                        <p> <a href="/stocks/{{stock.symbol}}">{{stock.symbol}} </a></p>
+                        {% endfor %}
+                        {% endif %}
+                    </td>
+                    
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+    </div>
+  </div>
+{% endblock %}

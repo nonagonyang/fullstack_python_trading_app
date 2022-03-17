@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Python Trader</title>
+
+  <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/popper"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
+
+  <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+
+<nav class="navbar navbar-expand" aria-label="breadcrumb">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <ol class="breadcrumb">
+        <a href="/" class="navbar-brand">
+          <img src="https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2019/09/shutterstock_1289430994.jpg?w=750" alt="logo">
+          <span>Python Trader</span>
+        </a>
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/stocks">Stocks</a></li>
+        <li class="breadcrumb-item"><a href="/strategies">Strategies</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Stock Price History</li>
+      </ol>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      {% if request.endpoint != None %}
+      <li>
+        <form class="navbar-form navbar-right" action="/stocks">
+          <input name="q" class="form-control" placeholder="Search Stock Symbol" id="search">
+          <button class="btn btn-default">
+            <span class="fa fa-search"></span>
+          </button>
+        </form>
+      </li>
+      {% endif %}
+
+
+
+      {% if not g.user %}
+      <li><a href="/signup">Sign up</a></li>
+      <li><a href="/login">Log in</a></li>
+      {% else %}
+      <li>
+        <a href="/users/{{ g.user.id }}">
+          <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
+        </a>
+      </li>
+      <li><a href="/messages/new">New Message</a></li>
+      <li><a href="/logout">Log out</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+
+  {% block content %}
+  {% endblock %}
+
+</div>
+</body>
+</html>
